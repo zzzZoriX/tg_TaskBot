@@ -1,12 +1,14 @@
 import asyncio
 from aiogram import types, filters, Router
 from aiogram.types import Message
-from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from CommandsText import commands
+from User.UserData import UserData
 
 
 router = Router()
+user: UserData = UserData()
+
 
 @router.message(filters.Command(commands["start"]))
 async def start_handler(msg: Message):
@@ -30,3 +32,17 @@ async def help_handler(msg: Message):
         "/statistics [period] - просмотр статистики"
         "/set_pin [pin-code] - установить пин-код для задачи"
     )
+
+@router.message(filters.Command(commands["register"]))
+async def register_handler(msg: Message):
+    register_result: bool = user.register(
+        msg.from_user.full_name, msg.from_user.id
+    )
+
+    if register_result:
+        await msg.reply("Вы уже зарегистрированы!")
+        user.login(msg.from_user.id)
+        
+        return
+    
+    await msg.reply("Вы успешно зарегистрированы!")
