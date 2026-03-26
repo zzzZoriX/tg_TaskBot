@@ -1,3 +1,5 @@
+from UsersDBAPI import *
+
 class UserData:
     _username: str
     _user_id: int
@@ -7,16 +9,17 @@ class UserData:
         self._username = username
         self._user_id = user_id
 
-        if self._check_is_exists():
+        if UsersDBAPI.is_exists(self._user_id):
             return True
 
         self._save_to_sql()
+        return False
 
     def login(self, user_id: int):
         self._get_from_sql(user_id)
 
     def _save_to_sql(self):
-        pass
+        UsersDBAPI.save_to_db(self._user_id, self._username, None)
 
-    def try_get_from_sql(self, user_id: int):
-        pass
+    def try_get_from_sql(self):
+        UsersDBAPI.get_from_sql(self._user_id)
