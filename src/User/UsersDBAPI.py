@@ -55,3 +55,13 @@ class UsersDBAPI:
             return None
 
         return getted_info[0]
+
+    @staticmethod
+    def is_exists(user_id: int) -> bool:
+        is_exists_sql = f"""
+        SELECT * FROM {UsersDBAPI.db_name} WHERE user_id = {user_id}
+        """
+
+        UsersDBAPI.cursor.execute(is_exists_sql)
+
+        return UsersDBAPI.cursor.fetchone() is None
