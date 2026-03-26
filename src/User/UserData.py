@@ -18,8 +18,5 @@ class UserData:
     def _save_to_sql(self):
         pass
 
-    def _get_from_sql(self, user_id: int):
-        pass
-
-    def _check_is_exists(self) -> bool:
+    def try_get_from_sql(self, user_id: int):
         pass
