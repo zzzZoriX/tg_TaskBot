@@ -21,5 +21,5 @@ class UserData:
     def _save_to_sql(self):
         UsersDBAPI.save_to_db(self._user_id, self._username, None)
 
-    def try_get_from_sql(self):
+    def _try_get_from_sql(self):
         UsersDBAPI.get_from_sql(self._user_id)
