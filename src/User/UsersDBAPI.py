@@ -10,12 +10,13 @@ class UsersDBAPI:
 
     db_name: str = "Users"
     cursor: sqlite3.Cursor
+    connection: sqlite3.Connection
 
 
     @staticmethod
     def init_db() -> None:
-        connection = sqlite3.connect(UsersDBAPI.db_name + ".db")
-        UsersDBAPI.cursor = connection.cursor()
+        UsersDBAPI.connection = sqlite3.connect(UsersDBAPI.db_name + ".db")
+        UsersDBAPI.cursor = UsersDBAPI.connection.cursor()
 
     @staticmethod
     def create_db() -> None:
@@ -29,6 +30,7 @@ class UsersDBAPI:
         """
 
         UsersDBAPI.cursor.execute(create_db_sql)
+        UsersDBAPI.connection.commit()
 
     @staticmethod
     def save_to_db(user_id: int = -1, username: str = "", pin_code: "str|None" = None) -> None:
@@ -38,6 +40,7 @@ class UsersDBAPI:
         """
 
         UsersDBAPI.cursor.execute(insert_into_db_sql)
+        UsersDBAPI.connection.commit()
 
     @staticmethod
     def get_from_sql(user_id: int):
